@@ -16,6 +16,14 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
+      env:
+        ENDPOINT_FOR_REPORT: ${{ secrets.ENDPOINT_FOR_REPORT }}
+        MAILSAC_API_KEY: ${{ secrets.MAILSAC_API_KEY }}
+        STORE_NAME_FOR_DELIVERY_OPTION: ${{ secrets.STORE_NAME_FOR_DELIVERY_OPTION }}
+        TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+        TEST_NAME: ${{ secrets.TEST_NAME }}
+        TEST_PHONE_NUMBER: ${{ secrets.TEST_PHONE_NUMBER }}
+
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
