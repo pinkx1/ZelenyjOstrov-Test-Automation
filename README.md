@@ -1,46 +1,44 @@
-# Инструкция по запуску тестов Playwright на Windows
+# Playwright Test Run Guide for Windows
 
-## 1. Установка Node.js (если ранее не установлено)
-1. Проверьте, установлено ли ранее:
+## 1. Installing Node.js (if not already installed)
+1. Check if Node.js is already installed:
    ```bash
    node -v
    npm -v
    ````
-2. Перейдите на официальный сайт [Node.js](https://nodejs.org/en/) и скачайте LTS версию (рекомендуется).
-3. Запустите установочный файл и следуйте инструкциям.
-4. После установки откройте командную строку (cmd) или PowerShell и проверьте, что Node.js установлен корректно, введя следующие команды:
+2. Visit the official Node.js website [Node.js](https://nodejs.org/en/) and download the LTS version (recommended). 
+3. Run the installer and follow the instructions.
+4. After installation, open the command prompt (cmd) or PowerShell and verify Node.js is installed correctly by running:
 
    ```bash
    node -v
    npm -v
 
-## 2. Подготовка проекта
+## 2. Setting Up the Project
 
-1. Разархивируйте папку проекта zelenyjostrov в удобное для вас место на компьютере.
-2. Откройте командную строку или PowerShell и перейдите в папку проекта:
+1. Unzip the project folder zelenyjostrov to a convenient location on your computer.
+2. Open the command prompt or PowerShell and navigate to the project folder:
 
    ```bash
-   cd путь_к_папке_проекта/zelenyjostrov
-3. Установите все необходимые зависимости, которые указаны в файле package.json, выполнив следующую команду:
+   cd path_to_project_folder/zelenyjostrov
+
+3. Install all necessary dependencies listed in the package.json file by running:
 
    ```bash
    npm install  
    ```
-   Эта команда установит все модули, необходимые для запуска Playwright тестов.
 
-
-
-## 3. Установка браузеров для Playwright:
+## 3. Installing Browsers for Playwright:
    
-Для корректного запуска тестов Playwright необходимо установить браузеры. Выполните следующую команду:
+For Playwright to run the tests correctly, you need to install the required browsers. Execute the following command:
 
 ```bash
-  npx playwright install
+  npx playwright install chromium
 ```
 
-## 4. Настройка переменных окружения (env)
+## 4. Setting Up Environment Variables (env)
 
-   Заполните файл `.env` нужными переменными:
+   Fill the .env file with the required variables:
    ```
    ENDPOINT_FOR_REPORT=
    MAILSAC_API_KEY=
@@ -49,39 +47,39 @@
    TEST_PHONE_NUMBER=
    STORE_NAME_FOR_DELIVERY_OPTION=
    ```
-   1. `ENDPOINT_FOR_REPORT` - указать эндпоинт, на который будет отправляться отчет о результатах тестирования
-   2. `MAILSAC_API_KEY` - сгенерировать здесь: https://mailsac.com/v2/credentials
-   3. `TEST_NAME` - указать имя, которое будет указано при оформлении заказа
-   4. `TEST_EMAIL` - указать емейл, который будет указан при оформлении заказа. Это должен быть любой емейл с сервиса https://mailsac.com/
-   5. `TEST_PHONE_NUMBER` - указать номер телефона, который будет указан при оформлении заказа
-   6. `STORE_NAME_FOR_DELIVERY_OPTION` - указать название магазина, который будет выбран как пункт для самовывоза заказа. **Важно** указать его в точности так, как написано название на кнопке выбора магазина на странице оформления заказа, иначе тест не сможет нажать на эту кнопку.
+   1. ENDPOINT_FOR_REPORT - specify the endpoint to which the test results will be sent.
+   2. MAILSAC_API_KEY - generate it here: https://mailsac.com/v2/credentials
+   3. TEST_NAME - specify the name that will be used when placing an order.
+   4. TEST_EMAIL - specify the email that will be used when placing an order. This should be any email from https://mailsac.com/.
+   5. TEST_PHONE_NUMBER - specify the phone number that will be used when placing an order.
+   6. STORE_NAME_FOR_DELIVERY_OPTION - specify the store name that will be selected as the pickup point for the order. Important: Enter the store name exactly as it appears on the store selection button during the checkout process, or the test will fail to click the button.
       
-   Эти переменные нужны для корректного выполнения тестов и отправки отчетов.
+   These variables are required for the tests to run correctly and for reports to be sent.
 
+## 3. Running the Tests
 
-## 3. Запуск тестов
+After all dependencies are installed, run the tests with the following command:
 
-После установки всех зависимостей, запустите тесты с помощью следующей команды:
 ```bash
    npx playwright test
 ```
-## 4. Открытие HTML-отчета после выполнения тестов (опционально)
+## 4. Opening the HTML Report After Tests (Optional)
 
-После выполнения тестов вы можете открыть отчет о тестировании, запустив следующую команду:
+After the tests are executed, you can open the test report by running:
 ```bash
 npx playwright show-report
 ```
 
-## 5. Описание конфигурации Playwright
+## 5. Playwright Configuration Description
 
-В проекте используется файл конфигурации Playwright (`playwright.config.ts`), который управляет настройками для запуска тестов. Вот основные параметры:
+The project uses a Playwright configuration file (playwright.config.ts) which manages settings for running tests. Below are the key parameters:
 
 ### 5.1 fullyParallel
 
-  `fullyParallel: true` — этот параметр позволяет запускать тесты в полностью параллельном режиме. Это означает, что все тесты будут выполняться одновременно в отдельных потоках. Если нужно, чтобы тесты выполнялись по очереди - замените `true` на `false`.
+  `fullyParallel: true` — this setting allows running tests in fully parallel mode. This means all tests will run simultaneously in separate threads. If you want to run tests sequentially, set `true` to `false`.
 
 ### 5.2 baseURL
-  `baseURL` — это базовый URL, который используется для всех тестов. Он определяет, на какой среде будут запускаться тесты. Важно, что в конце урла не было символа `/`, это помешает выполнению тестов. URL должен быть такого вида: `http://127.0.0.1:3000` или `https://www.test.com`
+  `baseURL` — this is the base URL used for all tests. It defines which environment the tests will run on. Ensure the URL does not end with a `/`, as it can cause test failures. The URL should look like: `http://127.0.0.1:3000` or  `https://www.test.com`
 
 ### 5.3 headless
-`headless` — этот параметр указывает, следует ли запускать браузер в фоновом режиме без графического интерфейса. Если headless: true, браузер будет запускаться без графического интерфейса, что позволяет ускорить выполнение тестов, так как это снижает нагрузку на систему. Если нужно визуально наблюдать за тестами - установите параметр как `false`
+`headless` — this setting determines whether the browser should run in headless mode (without a graphical interface). If `headless: true`, the browser will run without a GUI, which can speed up test execution by reducing system load. Set `false` if you need to visually observe the tests.
